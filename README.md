@@ -1,6 +1,6 @@
 # Movie List React App
 
-This is a React app that displays a list of movies retrieved from hardcoded values in a JavaScript file. It provides a simple and intuitive user interface for viewing and interacting with the movie list.
+This elegantly designed React application presents a visually appealing and user-friendly interface to showcase a curated collection of movies. The movie data is seamlessly retrieved from a hardcoded JavaScript file, ensuring a seamless browsing experience for users. With its intuitive design, users can effortlessly explore and interact with the movie list, enhancing their overall viewing pleasure.
 
 ## Installation
 

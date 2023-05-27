@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Like from "./commons/like";
 import Pagination from "./commons/pagination";
-import ListGroup from "./commons/listGroup.jsx";
+import ListGroup from "./commons/listGroups";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "./utils/paginate";
@@ -9,16 +9,18 @@ import { paginate } from "./utils/paginate";
 class Movies extends Component {
   state = {
     movies: [],
-    geners: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1,
   };
   componentDidMount() {
-    this.setState({ movies: getMovies(), geners: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
   }
 
-  handleGenereSelect = (genere) => {
-    console.log(genere);
+  handleGenereSelect = (genre) => {
+    console.log(genre);
+    this.setState({ selectedGener: genre, currentPage: 1 });
   };
 
   handlePageChange = (page) => {
@@ -40,9 +42,19 @@ class Movies extends Component {
 
   render() {
     const { length: cnt } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedGener,
+      movies: allMovies,
+    } = this.state;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const filteredMovies =
+      selectedGener && selectedGener._id
+        ? allMovies.filter((mov) => mov.genre._id === selectedGener._id)
+        : allMovies;
+
+    const movies = paginate(filteredMovies, currentPage, pageSize);
 
     if (cnt === 0) {
       return <p>Currently there is no movie in database!</p>;
@@ -52,12 +64,13 @@ class Movies extends Component {
       <div className="row">
         <div className="col-2">
           <ListGroup
-            items={this.state.geners}
+            items={this.state.genres}
             onItemSelected={this.handleGenereSelect}
+            selectedItem={this.state.selectedGener}
           />
         </div>
         <div className="col">
-          <p>Showing {cnt} movies in database.</p>
+          <p>Showing {filteredMovies.length} movies in database.</p>
           <table className="table">
             <thead>
               <tr>
@@ -97,7 +110,7 @@ class Movies extends Component {
             </tbody>
           </table>
           <Pagination
-            totalItems={cnt}
+            totalItems={filteredMovies.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}

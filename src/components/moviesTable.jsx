@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import Like from "./commons/like";
 import TableHeader from "./commons/tableHeader";
+import TableBody from "./commons/tableBody";
 
 class MoviesTable extends Component {
   columns = [
@@ -9,11 +10,26 @@ class MoviesTable extends Component {
     { path: "genre.name", lable: "Genre" },
     { path: "numberInStock", lable: "Stock" },
     { path: "dailyRentalRate", lable: "Rate" },
-    { key: "like" },
-    { key: "action" },
+    {
+      key: "like",
+      content: (movie) => (
+        <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
+      ),
+    },
+    {
+      key: "action",
+      content: (movie) => (
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => this.props.onDelete(movie._id)}
+        >
+          Delete
+        </button>
+      ),
+    },
   ];
   render() {
-    const { movies, onLike, onSort, onDelete, sortColumn } = this.props;
+    const { movies, onSort, sortColumn } = this.props;
     return (
       <React.Fragment>
         <p>Showing {movies.length} movies in database.</p>
@@ -23,32 +39,7 @@ class MoviesTable extends Component {
             onSort={onSort}
             sortColumn={sortColumn}
           />
-          <tbody>
-            {movies.map((ele) => (
-              <tr key={ele._id}>
-                <td>{ele.title}</td>
-                <td>{ele.genre.name}</td>
-                <td>{ele.numberInStock}</td>
-                <td>{ele.dailyRentalRate}</td>
-                <td>
-                  <Like
-                    liked={ele.liked}
-                    onClick={() => {
-                      onLike(ele);
-                    }}
-                  />
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => onDelete(ele._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <TableBody columns={this.columns} data={movies} />
         </table>
       </React.Fragment>
     );

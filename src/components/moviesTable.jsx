@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Like from "./like";
+import Like from "./commons/like";
 
 class MoviesTable extends Component {
   raiseSort = (path) => {

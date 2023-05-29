@@ -3,7 +3,6 @@ import React from "react";
 const ListGroup = (props) => {
   const { items, valueProperty, textProperty, selectedItem, onItemSelected } =
     props;
-  console.log(items);
   return (
     <ul className="list-group">
       {/* <li className="list-group-item active">All Generes</li> */}

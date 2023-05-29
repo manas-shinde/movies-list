@@ -31,17 +31,14 @@ class MoviesTable extends Component {
   render() {
     const { movies, onSort, sortColumn } = this.props;
     return (
-      <React.Fragment>
-        <p>Showing {movies.length} movies in database.</p>
-        <table className="table">
-          <TableHeader
-            columns={this.columns}
-            onSort={onSort}
-            sortColumn={sortColumn}
-          />
-          <TableBody columns={this.columns} data={movies} />
-        </table>
-      </React.Fragment>
+      <table className="table">
+        <TableHeader
+          columns={this.columns}
+          onSort={onSort}
+          sortColumn={sortColumn}
+        />
+        <TableBody columns={this.columns} data={movies} />
+      </table>
     );
   }
 }

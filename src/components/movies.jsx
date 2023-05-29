@@ -85,6 +85,7 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <p>Showing {filteredMovies.length} movies in database.</p>
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}

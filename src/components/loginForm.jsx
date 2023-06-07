@@ -1,14 +1,29 @@
 import React, { Component } from "react";
 
 class LoginForm extends Component {
+  username = React.createRef();
+
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const username = this.username.current.value;
+
+    console.log(`User name ${username}`);
+  };
   render() {
     return (
       <div>
         <h1>Login Form</h1>
-        <form action="">
+        <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <lable htmlFor="username">Username</lable>
-            <input id="username" type="text" className="form-control" />
+            <input
+              autoFocus
+              ref={this.username}
+              id="username"
+              type="text"
+              className="form-control"
+            />
           </div>
           <div className="form-group">
             <lable htmlFor="password">Password</lable>

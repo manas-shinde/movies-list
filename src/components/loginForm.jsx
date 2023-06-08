@@ -1,21 +1,34 @@
 import React, { Component } from "react";
 
+import Input from "./commons/input.jsx";
+
 class LoginForm extends Component {
-  username = React.createRef();
+  // username = React.createRef();
 
   state = {
     account: {
-      username: "default",
-      password: "default",
+      username: "",
+      password: "",
     },
+    errors: {},
+  };
+
+  validate = () => {
+    const errors = {};
+    const { account } = this.state;
+
+    if (account.username === "") errors.username = "Username is required.";
+    if (account.password === "") errors.password = "Password is required.";
+
+    return Object.keys(errors).length === 0 ? null : errors;
   };
 
   onSubmit = (e) => {
     e.preventDefault();
 
-    const username = this.username.current.value;
-
-    console.log(`User name ${username}`);
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+    if (errors) return;
   };
 
   onChange = (e) => {
@@ -32,30 +45,20 @@ class LoginForm extends Component {
       <div>
         <h1>Login Form</h1>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              autoFocus
-              value={this.state.account.username}
-              onChange={this.onChange}
-              ref={this.username}
-              id="username"
-              name="username"
-              type="text"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              value={this.state.account.password}
-              onChange={this.onChange}
-              id="password"
-              name="password"
-              type="text"
-              className="form-control"
-            />
-          </div>
+          <Input
+            name="username"
+            label="Username"
+            value={this.state.account.username}
+            error={this.state.errors.username}
+            onChange={this.onChange}
+          ></Input>
+          <Input
+            name="password"
+            label="Password"
+            value={this.state.account.password}
+            error={this.state.errors.password}
+            onChange={this.onChange}
+          ></Input>
           <button className="btn btn-primary">Login</button>
         </form>
       </div>

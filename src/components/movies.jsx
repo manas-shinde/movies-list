@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Pagination from "./commons/pagination";
 import ListGroup from "./commons/listGroups";
 import MoviesTable from "./moviesTable";
@@ -85,6 +86,13 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
           <p>Showing {filteredMovies.length} movies in database.</p>
           <MoviesTable
             movies={movies}

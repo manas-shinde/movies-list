@@ -8,12 +8,14 @@ import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
 
 import _ from "lodash";
+import SearchBox from "./searchBox";
 
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
     pageSize: 4,
+    searchQuery: "",
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
   };
@@ -49,7 +51,9 @@ class Movies extends Component {
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
   };
-
+  handleSearch = (serachQuery) => {
+    this.setState({ serachQuery });
+  };
   render() {
     const { length: cnt } = this.state.movies;
     const {
@@ -94,6 +98,10 @@ class Movies extends Component {
             New Movie
           </Link>
           <p>Showing {filteredMovies.length} movies in database.</p>
+          <SearchBox
+            value={this.state.searchQuery}
+            handleChange={this.handleSearch}
+          />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}

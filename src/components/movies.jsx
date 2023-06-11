@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Pagination from "./commons/pagination";
 import ListGroup from "./commons/listGroups";
 import MoviesTable from "./moviesTable";
@@ -7,12 +8,14 @@ import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
 
 import _ from "lodash";
+import SearchBox from "./searchBox";
 
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
     pageSize: 4,
+    searchQuery: "",
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
   };
@@ -48,7 +51,9 @@ class Movies extends Component {
     movies[index].liked = !movies[index].liked;
     this.setState({ movies });
   };
-
+  handleSearch = (serachQuery) => {
+    this.setState({ serachQuery });
+  };
   render() {
     const { length: cnt } = this.state.movies;
     const {
@@ -85,7 +90,18 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
           <p>Showing {filteredMovies.length} movies in database.</p>
+          <SearchBox
+            value={this.state.searchQuery}
+            handleChange={this.handleSearch}
+          />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}

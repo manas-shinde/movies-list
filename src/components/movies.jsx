@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import Pagination from "./commons/pagination";
 import ListGroup from "./commons/listGroups";
 import MoviesTable from "./moviesTable";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+// import { getMovies } from "../services/fakeMovieService";
+// import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
+import { getGenres } from "../services/generService";
+import { getMovies } from "../services/moviesService";
 
 import _ from "lodash";
 import SearchBox from "./searchBox";
@@ -19,12 +21,15 @@ class Movies extends Component {
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
   };
-  componentDidMount() {
+  async componentDidMount() {
+    let { data } = await getGenres();
+    let { data: movies } = await getMovies();
+
     const genres = [
       { _id: "5b21ca3eeb7f6fbccd471816", name: "All Genres" },
-      ...getGenres(),
+      ...data,
     ];
-    this.setState({ movies: getMovies(), genres });
+    this.setState({ movies: movies, genres });
   }
 
   handleSorting = (sortColumn) => {

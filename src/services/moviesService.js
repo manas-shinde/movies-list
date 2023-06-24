@@ -1,9 +1,10 @@
 import axios from "axios";
+import config from "../config.json";
 
 export function getMovies() {
-  return axios.get("http://localhost:3900/api/movies");
+  return axios.get(config.apiUrl + "/movies");
 }
 
 export function deleteMovie(movieId) {
-  return axios.delete(`http://localhost:3900/api/movies/${movieId}`);
+  return axios.delete(`${config.apiUrl}/${movieId}`);
 }

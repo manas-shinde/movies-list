@@ -8,3 +8,9 @@ export function getMovies() {
 export function deleteMovie(movieId) {
   return axios.delete(`${config.apiUrl}/${movieId}`);
 }
+
+export function getMovie(movieId) {
+  return axios.get(`${config.apiUrl}/movies/${movieId}`);
+}
+
+export function saveMovie(movie) {}
